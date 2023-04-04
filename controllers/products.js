@@ -50,8 +50,24 @@ const getAllProducts = async (req, res) => {
     // http://localhost:5000/api/products?select=name,price
   }
 
+  /*
+    http://localhost:5000/api/products?page=2&limit=10
+    pagination
+
+  */
+
+  let page = Number(req.query.page) || 1 // comes in string page : '2' , and if no page then by default set page 1
+  let limit = Number(req.query.limit) || 3 // in our data total 8 so here 3
+  let skip = (page - 1) * limit // pagination formula, first page 3 then second page NEXT 3
+
+  // page = 2
+  // limit = 3
+  // skip = 1 * 3 = 3 (Limit is 3 and page is second, so it skips first 3) (pagination formula)
+
+  apiData = apiData.skip(skip).limit(limit)
+
   const myData = await apiData
-  res.status(200).json({ myData })
+  res.status(200).json({ myData, nbHits: myData.length }) // nbHits variable shows number of data found
 }
 
 const getAllProductsTesting = async (req, res) => {
