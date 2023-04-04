@@ -1,7 +1,7 @@
 const Product = require('../models/product')
 
 const getAllProducts = async (req, res) => {
-  const { company, name, featured, sort } = req.query
+  const { company, name, featured, sort, select } = req.query
   const queryObject = {}
 
   if (company) {
@@ -25,8 +25,9 @@ const getAllProducts = async (req, res) => {
   let apiData = Product.find(queryObject)
 
   if (sort) {
-    let sortFix = sort.replace(',', ' ')
+    let sortFix = sort.split(',').join(' ')
     apiData = apiData.sort(sortFix)
+    // http://localhost:5000/api/products?sort=name,-price
   }
   /* 
     when user uses sort in URL, the req is with ,
@@ -38,6 +39,17 @@ const getAllProducts = async (req, res) => {
     const myData = await Product.find(queryObject).sort(sort)
     this will apply sort everytime even if user does not request so we use apiData
   */
+
+  if (select) {
+    /* 
+      let selectFix = select.replace(',', ' ')
+      here we cannot pass three like name,price,company because we were using replace
+    */
+    let selectFix = select.split(',').join(' ')
+    apiData = apiData.select(selectFix)
+    // http://localhost:5000/api/products?select=name,price
+  }
+
   const myData = await apiData
   res.status(200).json({ myData })
 }
