@@ -1,7 +1,18 @@
 const Product = require('../models/product')
 
 const getAllProducts = async (req, res) => {
-  const myData = await Product.find({}) // finds all data
+  const { company } = req.query
+  const queryObject = {}
+
+  if (company) {
+    queryObject.company = company
+  }
+
+  /* 
+    better filtering as if multiple queries and random ?company=apple&asdadsad=sadqew
+    then result would be empty
+  */
+  const myData = await Product.find(queryObject)
   res.status(200).json({ myData })
 }
 
