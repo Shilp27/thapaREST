@@ -1,16 +1,25 @@
 const Product = require('../models/product')
 
 const getAllProducts = async (req, res) => {
-  const { company } = req.query
+  const { company, name } = req.query
   const queryObject = {}
 
   if (company) {
     queryObject.company = company
   }
 
+  if (featured) {
+    queryObject.featured = featured
+  }
+
+  if (name) {
+    queryObject.name = { $regex: name, $options: 'i' } // i represents case insensitive
+  }
+
   /* 
-    better filtering as if multiple queries and random ?company=apple&asdadsad=sadqew
-    then result would be empty
+    advanced filtering with some tolerance to wrong names using mongodb regex
+    iphone only returned iphone before
+    but now it returns iphone12 also
   */
   const myData = await Product.find(queryObject)
   res.status(200).json({ myData })
