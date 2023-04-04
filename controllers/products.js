@@ -6,7 +6,7 @@ const getAllProducts = async (req, res) => {
 }
 
 const getAllProductsTesting = async (req, res) => {
-  const myData = await Product.find({ name: 'iphone' }) // finds all data with name iphone
+  const myData = await Product.find(req.query) // using req.query get /api/testing?company=mi&user=hello
   res.status(200).json({ myData })
 }
 
