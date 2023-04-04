@@ -9,6 +9,7 @@ const ProductJson = require('./products.json') // no need of export in json file
 const start = async () => {
   try {
     await connectDB(process.env.MONGODB_URL)
+    await Product.deleteMany() // to avoid appending new data
     await Product.create(ProductJson)
     console.log('success')
   } catch (error) {
