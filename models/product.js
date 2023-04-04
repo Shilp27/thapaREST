@@ -23,11 +23,11 @@ const productSchema = new mongoose.Schema({
   },
   company: {
     type: String,
-    enum: {
-      value: ['apple', 'samsung', 'dell', 'mi'], // here we don't want company other than these
-      message: `{VALUE} is not supported`,
-    },
+    // enum: {
+    //   value: ['apple', 'samsung', 'dell', 'mi'], // here we don't want company other than these (but code not working)
+    //   message: `{VALUE} is not supported`,
+    // },
   },
 })
 
-module.exports = mongoose.model('Product', productSchema) // first parameter always write in Singular
+module.exports = mongoose.model('Product', productSchema) // first parameter always write in Singular as in mongodb s is added
