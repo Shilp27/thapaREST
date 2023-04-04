@@ -66,8 +66,8 @@ const getAllProducts = async (req, res) => {
 
   apiData = apiData.skip(skip).limit(limit)
 
-  const myData = await apiData
-  res.status(200).json({ myData, nbHits: myData.length }) // nbHits variable shows number of data found
+  const Products = await apiData // rename myData to Products to know it is our products data
+  res.status(200).json({ Products, nbHits: Products.length }) // nbHits variable shows number of data found
 }
 
 const getAllProductsTesting = async (req, res) => {
